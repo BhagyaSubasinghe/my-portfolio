@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="script.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+<body>
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">Bhagya Subasinghe</div>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About Me</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact Me</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Home Section -->
+  <section id="home" class="home">
+    <div class="home-content">
+      <h1>Hi, I'm <span>Bhagya Subasinghe</span></h1>
+      <h2>A Passionate <span>Web Developer</span></h2>
+      <p>I design and build modern, responsive, and user-friendly websites.</p>
+
+      <!-- Social Media Icons -->
+      <div class="social-icons">
+        <a href="https://wa.me/94762658049" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://www.instagram.com/bhagya_subasinghe_?igsh=MWcwZjZyajZ1MDFvYg==" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.linkedin.com/in/bhagya-subasinghe-5534a232b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank"><i class="fab fa-linkedin"></i></a>
+      </div>
+
+      <!-- Let's Talk Button -->
+      <a href="#contact" class="btn">Let's Talk</a>
+    </div>
+
+    <!-- Profile Image -->
+    <div class="home-img">
+      <img src="IMG-20231014-WA0327.jpg" alt="My Photo">
+    </div>
+  </section>
+
+
+            
+
+    <!-- About Me Section -->
+   <section id="about" class="about-section">
+  <div class="about-container">
+    <h2 class="section-title">About Me</h2>
+    <p class="about-text">
+      Hello! I’m <strong>Bhagya Subasinghe</strong>, a second-year student pursuing a degree in 
+      <strong>Computing and Information Systems</strong> at Sabaragamuwa University of Sri Lanka.  
+      I am passionate about <strong>UI/UX design</strong> and <strong>web development</strong>, 
+      continuously learning and completing small projects to sharpen my skills.  
+      My goal is to grow as a creative and skilled developer, designing meaningful and user-friendly digital experiences.
+    </p>
+  </div>
+</section>
+
+
+
+    <!-- Services Section -->
+    <section id="services">
+        <h2>My Services</h2>
+        <div class="services-container">
+            <div class="service-card">
+                <i class="fas fa-pencil-ruler"></i>
+                <h3>UI/UX Design</h3>
+                <p>Designing user interfaces and experiences that are both beautiful and intuitive.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-paint-brush"></i>
+                <h3>Graphic Design</h3>
+                <p>Creating visually compelling graphics for digital and print media.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-code"></i>
+                <h3>Front-end Development</h3>
+                <p>Building responsive and interactive websites using modern technologies.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-database"></i>
+                <h3>Database Management</h3>
+                <p>Organizing, storing, and managing data efficiently for projects.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-project-diagram"></i>
+                <h3>Project Management</h3>
+                <p>Planning, executing, and completing projects efficiently and on time.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    
+<section id="projects">
+    <h2>My Projects</h2>
+    <div class="projects-container">
+        
+        <!-- Project 1 -->
+        <div class="project-card">
+            <img src="Screenshot 2025-09-01 201513.png" alt="Project 1">
+            <div class="project-info">
+                <h3><a href="https://yourproject1link.com" target="_blank">Nadiyas Clothing</a></h3>
+                <p>A modern static clothing website built with HTML, CSS, and JavaScript showcasing responsive design and smooth animations.</p>
+            </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="project-card">
+            <img src="project 2.png" alt="Project 2">
+            <div class="project-info">
+                <h3><a href="https://yourproject2link.com" target="_blank">UI/UX Design</a></h3>
+                <p>A modern UI/UX design for portfolio website  with user-friendly UI</p>
+            </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="project-card">
+            <img src="project 3.png" alt="Project 3">
+            <div class="project-info">
+                <h3><a href="https://yourproject3link.com" target="_blank">UI/UX Design</a></h3>
+                <p>UI/UX Design for modern wedding planning web site</p>
+            </div>
+        </div>
+
+    </div>
+
+     <!-- View More Button -->
+  <div class="projects-btn">
+    <a href="https://github.com/BhagyaSubasinghe" target="_blank" class="btn">View More</a>
+  </div>
+
+</section>
+
+
+    <!-- Contact Section -->
+    
+<section id="contact">
+  <h2>Contact Me</h2>
+  <p>If you’d like to get in touch, feel free to send me a message or connect through my socials.</p>
+
+  <div class="contact-container">
+    <!-- Contact Form -->
+    <form class="contact-form">
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea placeholder="Your Message" rows="5" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+
+    <!-- Contact Info -->
+    <div class="contact-info">
+      <p><i class="fas fa-envelope"></i> chamodi2002bhagya@gmail.com</p>
+      <p><i class="fas fa-phone"></i> +94 762658049</p>
+      <p><i class="fas fa-map-marker-alt"></i> Colombo, Sri Lanka</p>
+
+      <div class="social-links">
+        <a href="#"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <footer>
+        &copy; 2025 Bhagya Subasinghe. All rights reserved.
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
