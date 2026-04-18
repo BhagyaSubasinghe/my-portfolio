@@ -53,15 +53,15 @@ if ('IntersectionObserver' in window) {
 const contactForm = document.getElementById('contact-form');
 if (contactForm) {
     const EMAILJS_CONFIG = {
-        publicKey: 'YOUR_EMAILJS_PUBLIC_KEY',
-        serviceId: 'YOUR_EMAILJS_SERVICE_ID',
-        templateId: 'YOUR_EMAILJS_TEMPLATE_ID'
+        publicKey: 'ZMSHNazqKnQqHc71x',
+        serviceId: 'service_d2nb0zo',
+        templateId: 'template_nrhf8xn'
     };
 
     const isEmailJsConfigured =
-        EMAILJS_CONFIG.publicKey !== 'YOUR_EMAILJS_PUBLIC_KEY' &&
-        EMAILJS_CONFIG.serviceId !== 'YOUR_EMAILJS_SERVICE_ID' &&
-        EMAILJS_CONFIG.templateId !== 'YOUR_EMAILJS_TEMPLATE_ID';
+        EMAILJS_CONFIG.publicKey && !EMAILJS_CONFIG.publicKey.startsWith('YOUR_') &&
+        EMAILJS_CONFIG.serviceId && !EMAILJS_CONFIG.serviceId.startsWith('YOUR_') &&
+        EMAILJS_CONFIG.templateId && !EMAILJS_CONFIG.templateId.startsWith('YOUR_');
 
     if (window.emailjs && isEmailJsConfigured) {
         window.emailjs.init({
