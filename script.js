@@ -49,9 +49,26 @@ if ('IntersectionObserver' in window) {
     });
 }
 
-// Contact form alert
+// Contact form via EmailJS (direct send, no custom backend)
 const contactForm = document.getElementById('contact-form');
 if (contactForm) {
+    const EMAILJS_CONFIG = {
+        publicKey: 'YOUR_EMAILJS_PUBLIC_KEY',
+        serviceId: 'YOUR_EMAILJS_SERVICE_ID',
+        templateId: 'YOUR_EMAILJS_TEMPLATE_ID'
+    };
+
+    const isEmailJsConfigured =
+        EMAILJS_CONFIG.publicKey !== 'YOUR_EMAILJS_PUBLIC_KEY' &&
+        EMAILJS_CONFIG.serviceId !== 'YOUR_EMAILJS_SERVICE_ID' &&
+        EMAILJS_CONFIG.templateId !== 'YOUR_EMAILJS_TEMPLATE_ID';
+
+    if (window.emailjs && isEmailJsConfigured) {
+        window.emailjs.init({
+            publicKey: EMAILJS_CONFIG.publicKey
+        });
+    }
+
     contactForm.addEventListener('submit', function(e){
         e.preventDefault();
 
@@ -59,6 +76,7 @@ if (contactForm) {
         const emailInput = document.getElementById('contact-email');
         const messageInput = document.getElementById('contact-message');
         const statusText = document.getElementById('form-status');
+        const submitButton = contactForm.querySelector('button[type="submit"]');
 
         if (!nameInput || !emailInput || !messageInput) {
             return;
@@ -75,23 +93,46 @@ if (contactForm) {
             return;
         }
 
-        const recipient = 'chamodi2002bhagya@gmail.com';
-        const subject = `Portfolio contact from ${name}`;
-        const body = [
-            `Name: ${name}`,
-            `Email: ${email}`,
-            '',
-            'Message:',
-            message
-        ].join('\n');
-
-        const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-        if (statusText) {
-            statusText.textContent = 'Opening your email app with the message details...';
+        if (!window.emailjs || !isEmailJsConfigured) {
+            if (statusText) {
+                statusText.textContent = 'Email form is not configured yet. Please add your EmailJS keys in script.js.';
+            }
+            return;
         }
 
-        window.location.href = mailtoLink;
+        if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending...';
+        }
+
+        if (statusText) {
+            statusText.textContent = 'Sending your message...';
+        }
+
+        window.emailjs
+            .send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, {
+                from_name: name,
+                from_email: email,
+                message: message,
+                to_email: 'chamodi2002bhagya@gmail.com'
+            })
+            .then(() => {
+                if (statusText) {
+                    statusText.textContent = 'Message sent successfully. Thank you!';
+                }
+                contactForm.reset();
+            })
+            .catch(() => {
+                if (statusText) {
+                    statusText.textContent = 'Message failed to send. Please try again.';
+                }
+            })
+            .finally(() => {
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Send Message';
+                }
+            });
     });
 }
 
