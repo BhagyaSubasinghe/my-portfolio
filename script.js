@@ -54,7 +54,44 @@ const contactForm = document.getElementById('contact-form');
 if (contactForm) {
     contactForm.addEventListener('submit', function(e){
         e.preventDefault();
-        alert('Thank you for your message!');
+
+        const nameInput = document.getElementById('contact-name');
+        const emailInput = document.getElementById('contact-email');
+        const messageInput = document.getElementById('contact-message');
+        const statusText = document.getElementById('form-status');
+
+        if (!nameInput || !emailInput || !messageInput) {
+            return;
+        }
+
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const message = messageInput.value.trim();
+
+        if (!name || !email || !message) {
+            if (statusText) {
+                statusText.textContent = 'Please fill all fields before sending.';
+            }
+            return;
+        }
+
+        const recipient = 'chamodi2002bhagya@gmail.com';
+        const subject = `Portfolio contact from ${name}`;
+        const body = [
+            `Name: ${name}`,
+            `Email: ${email}`,
+            '',
+            'Message:',
+            message
+        ].join('\n');
+
+        const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+        if (statusText) {
+            statusText.textContent = 'Opening your email app with the message details...';
+        }
+
+        window.location.href = mailtoLink;
     });
 }
 
