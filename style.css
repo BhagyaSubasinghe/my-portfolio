@@ -483,6 +483,18 @@ img {
   background: #00cc66;
 }
 
+.contact-form button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.form-status {
+  margin-top: 10px;
+  min-height: 20px;
+  color: #9fd9c6;
+  font-size: 0.9rem;
+}
+
 .contact-info {
   width: 100%;
   padding: 26px;

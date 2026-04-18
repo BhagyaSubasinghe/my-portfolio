@@ -49,12 +49,90 @@ if ('IntersectionObserver' in window) {
     });
 }
 
-// Contact form alert
+// Contact form via EmailJS (direct send, no custom backend)
 const contactForm = document.getElementById('contact-form');
 if (contactForm) {
+    const EMAILJS_CONFIG = {
+        publicKey: 'ZMSHNazqKnQqHc71x',
+        serviceId: 'service_d2nb0zo',
+        templateId: 'template_nrhf8xn'
+    };
+
+    const isEmailJsConfigured =
+        EMAILJS_CONFIG.publicKey && !EMAILJS_CONFIG.publicKey.startsWith('YOUR_') &&
+        EMAILJS_CONFIG.serviceId && !EMAILJS_CONFIG.serviceId.startsWith('YOUR_') &&
+        EMAILJS_CONFIG.templateId && !EMAILJS_CONFIG.templateId.startsWith('YOUR_');
+
+    if (window.emailjs && isEmailJsConfigured) {
+        window.emailjs.init({
+            publicKey: EMAILJS_CONFIG.publicKey
+        });
+    }
+
     contactForm.addEventListener('submit', function(e){
         e.preventDefault();
-        alert('Thank you for your message!');
+
+        const nameInput = document.getElementById('contact-name');
+        const emailInput = document.getElementById('contact-email');
+        const messageInput = document.getElementById('contact-message');
+        const statusText = document.getElementById('form-status');
+        const submitButton = contactForm.querySelector('button[type="submit"]');
+
+        if (!nameInput || !emailInput || !messageInput) {
+            return;
+        }
+
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const message = messageInput.value.trim();
+
+        if (!name || !email || !message) {
+            if (statusText) {
+                statusText.textContent = 'Please fill all fields before sending.';
+            }
+            return;
+        }
+
+        if (!window.emailjs || !isEmailJsConfigured) {
+            if (statusText) {
+                statusText.textContent = 'Email form is not configured yet. Please add your EmailJS keys in script.js.';
+            }
+            return;
+        }
+
+        if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending...';
+        }
+
+        if (statusText) {
+            statusText.textContent = 'Sending your message...';
+        }
+
+        window.emailjs
+            .send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, {
+                from_name: name,
+                from_email: email,
+                message: message,
+                to_email: 'chamodi2002bhagya@gmail.com'
+            })
+            .then(() => {
+                if (statusText) {
+                    statusText.textContent = 'Message sent successfully. Thank you!';
+                }
+                contactForm.reset();
+            })
+            .catch(() => {
+                if (statusText) {
+                    statusText.textContent = 'Message failed to send. Please try again.';
+                }
+            })
+            .finally(() => {
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Send Message';
+                }
+            });
     });
 }
 
