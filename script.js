@@ -1,139 +1,70 @@
-// Mobile menu toggle
+// Mobile navigation toggle
 const menuToggle = document.querySelector('.menu-toggle');
 const navLinks = document.querySelector('.nav-links');
 
 if (menuToggle && navLinks) {
-    menuToggle.addEventListener('click', () => {
-        const isOpen = navLinks.classList.toggle('open');
-        menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    });
+  menuToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
 }
 
-// Smooth scroll
-document.querySelectorAll('nav a').forEach(anchor => {
-    anchor.addEventListener('click', function(e){
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (!target) {
-            return;
-        }
-
-        target.scrollIntoView({
-            behavior: 'smooth'
-        });
-
-        if (navLinks) {
-            navLinks.classList.remove('open');
-        }
-        if (menuToggle) {
-            menuToggle.setAttribute('aria-expanded', 'false');
-        }
-    });
+// Close mobile nav when link clicked
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    if (navLinks) navLinks.classList.remove('open');
+    if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
+  });
 });
 
-// Simple fade-in animation for sections
-const sections = document.querySelectorAll('section');
-
-if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if(entry.isIntersecting){
-                entry.target.classList.add('show');
-            }
-        });
-    }, { threshold: 0.1 });
-
-    sections.forEach(section => {
-        section.classList.add('hidden');
-        observer.observe(section);
-    });
-}
-
-// Contact form via EmailJS (direct send, no custom backend)
+// Contact Form via EmailJS Integration
 const contactForm = document.getElementById('contact-form');
 if (contactForm) {
-    const EMAILJS_CONFIG = {
-        publicKey: 'ZMSHNazqKnQqHc71x',
-        serviceId: 'service_d2nb0zo',
-        templateId: 'template_nrhf8xn'
-    };
+  const EMAILJS_CONFIG = {
+    publicKey: 'ZMSHNazqKnQqHc71x',
+    serviceId: 'service_d2nb0zo',
+    templateId: 'template_nrhf8xn'
+  };
 
-    const isEmailJsConfigured =
-        EMAILJS_CONFIG.publicKey && !EMAILJS_CONFIG.publicKey.startsWith('YOUR_') &&
-        EMAILJS_CONFIG.serviceId && !EMAILJS_CONFIG.serviceId.startsWith('YOUR_') &&
-        EMAILJS_CONFIG.templateId && !EMAILJS_CONFIG.templateId.startsWith('YOUR_');
+  if (window.emailjs && EMAILJS_CONFIG.publicKey) {
+    window.emailjs.init({ publicKey: EMAILJS_CONFIG.publicKey });
+  }
 
-    if (window.emailjs && isEmailJsConfigured) {
-        window.emailjs.init({
-            publicKey: EMAILJS_CONFIG.publicKey
-        });
+  contactForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const nameInput = document.getElementById('contact-name');
+    const emailInput = document.getElementById('contact-email');
+    const messageInput = document.getElementById('contact-message');
+    const statusText = document.getElementById('form-status');
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+
+    if (!nameInput.value.trim() || !emailInput.value.trim() || !messageInput.value.trim()) {
+      statusText.textContent = 'Please fill out all fields.';
+      return;
     }
 
-    contactForm.addEventListener('submit', function(e){
-        e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+    statusText.textContent = 'Sending your message...';
 
-        const nameInput = document.getElementById('contact-name');
-        const emailInput = document.getElementById('contact-email');
-        const messageInput = document.getElementById('contact-message');
-        const statusText = document.getElementById('form-status');
-        const submitButton = contactForm.querySelector('button[type="submit"]');
-
-        if (!nameInput || !emailInput || !messageInput) {
-            return;
-        }
-
-        const name = nameInput.value.trim();
-        const email = emailInput.value.trim();
-        const message = messageInput.value.trim();
-
-        if (!name || !email || !message) {
-            if (statusText) {
-                statusText.textContent = 'Please fill all fields before sending.';
-            }
-            return;
-        }
-
-        if (!window.emailjs || !isEmailJsConfigured) {
-            if (statusText) {
-                statusText.textContent = 'Email form is not configured yet. Please add your EmailJS keys in script.js.';
-            }
-            return;
-        }
-
-        if (submitButton) {
-            submitButton.disabled = true;
-            submitButton.textContent = 'Sending...';
-        }
-
-        if (statusText) {
-            statusText.textContent = 'Sending your message...';
-        }
-
-        window.emailjs
-            .send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, {
-                from_name: name,
-                from_email: email,
-                message: message,
-                to_email: 'chamodi2002bhagya@gmail.com'
-            })
-            .then(() => {
-                if (statusText) {
-                    statusText.textContent = 'Message sent successfully. Thank you!';
-                }
-                contactForm.reset();
-            })
-            .catch(() => {
-                if (statusText) {
-                    statusText.textContent = 'Message failed to send. Please try again.';
-                }
-            })
-            .finally(() => {
-                if (submitButton) {
-                    submitButton.disabled = false;
-                    submitButton.textContent = 'Send Message';
-                }
-            });
-    });
+    window.emailjs
+      .send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, {
+        from_name: nameInput.value.trim(),
+        from_email: emailInput.value.trim(),
+        message: messageInput.value.trim(),
+        to_email: 'chamodi2002bhagya@gmail.com'
+      })
+      .then(() => {
+        statusText.textContent = 'Message sent successfully!';
+        contactForm.reset();
+      })
+      .catch(() => {
+        statusText.textContent = 'Failed to send message. Please try again.';
+      })
+      .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send Message';
+      });
+  });
 }
-
-
